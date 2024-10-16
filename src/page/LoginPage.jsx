@@ -1,4 +1,4 @@
-import {Login} from "../components/Authorization/Login.jsx";
+import {Login} from "../components/authorization/Login.jsx";
 import {Navbar} from "../components/Navbar.jsx";
 
 

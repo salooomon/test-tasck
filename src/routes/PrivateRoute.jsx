@@ -1,25 +1,21 @@
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {Navigate, Outlet, useLocation} from "react-router-dom";
-import {isAuthenticated} from "../store/storage/AuthorizationStorage.js";
+import {isAuthenticated} from "../store/storage/authorizationStorage.js";
+import {useDispatch, useSelector} from "react-redux";
+import {getCookie} from "../utils/сookieFunctions.js";
 
 export const PrivateRoute = () => {
-    const [isAuth, setAuth] = useState(false);
+    const dispatch = useDispatch();
+    const authState = useSelector((state) => state.auth);
 
-    useEffect(() => {
-        const token = localStorage.getItem("user");
-        if(isAuthenticated(token).payload === null){
-            setAuth(false)
-        } else {
+    useEffect( () => {
+        dispatch(isAuthenticated("user"));
+    }, []);
 
-            setAuth(true);
-        }
-
-    }, [])
-
-    const location = useLocation()
+    const location = useLocation();
 
     return (
-        isAuth === true ?
+        authState.isAuth === true ?
             <Outlet />
             :
             <Navigate to="/login" state={{ from: location }} replace />

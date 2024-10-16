@@ -1,12 +1,16 @@
 import {InputComponent} from "../UI/Input.jsx";
 import {Button} from "../UI/Button.jsx";
-import {useState} from "react";
-import {useDispatch} from "react-redux";
-import {fetchLoginUser} from "../../store/storage/AuthorizationStorage.js";
+import {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchLoginUser} from "../../store/storage/authorizationStorage.js";
+import {useNavigate} from "react-router-dom";
 
 
 export const Login = () => {
     const dispatch = useDispatch();
+    const navigation = useNavigate();
+
+    const authState = useSelector((state) => state.auth);
 
     const [stateInput, setStateInput] = useState({
         username: "",
@@ -17,19 +21,22 @@ export const Login = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        dispatch(fetchLoginUser(stateInput.username, stateInput.password))
+        dispatch(fetchLoginUser(stateInput));
     }
 
     const onChange = (e) => {
         if(e.target.name === "password") {
-            setStateInput({...stateInput, [e.target.name]: e.target.value})
+            setStateInput({...stateInput, [e.target.name]: e.target.value});
         } else {
             setStateInput({...stateInput, [e.target.name]: e.target.value});
         }
     }
-    const onClick = () => {
 
-    }
+    useEffect(() => {
+        if(authState.loadingStatus === 'loaded') {
+            navigation("/");
+        }
+    }, [authState.loadingStatus])
 
     return (
         <form className="form-login" onSubmit={onSubmit}>
@@ -61,7 +68,7 @@ export const Login = () => {
             </div>
             <div className='btn-wrapper'>
                 <Button type="submit" text="Авторизация"/>
-                <Button type="button" text="Сменить пароль" onClick={onClick}/>
+                <Button type="button" text="Регистрация" onClick={() => navigation("/registration")}/>
             </div>
         </form>
     )

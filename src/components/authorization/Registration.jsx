@@ -1,8 +1,16 @@
 import {InputComponent} from "../UI/Input.jsx";
 import {Button} from "../UI/Button.jsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchRegistrationUser} from "../../store/storage/authorizationStorage.js";
+import {useNavigate} from "react-router-dom";
 
 export const Registration = () => {
+    const dispatch = useDispatch();
+    const navigation = useNavigate();
+
+    const {loadingStatus} = useSelector((state) => state.auth);
+
     const [isShow, setIsShow] = useState(false);
 
     const [stateRegistered, setStateRegistered] = useState({
@@ -35,12 +43,16 @@ export const Registration = () => {
     }
 
     const onSubmit = (e) => {
-
-        console.log(stateRegistered);
         e.preventDefault();
-
-
+        dispatch(fetchRegistrationUser(stateRegistered));
     }
+    useEffect(() => {
+        if(loadingStatus === 'loaded') {
+            navigation("/login");
+        }
+    }, [loadingStatus]);
+
+
 
     return (
         <form className="form-login" onSubmit={onSubmit}>
@@ -66,7 +78,7 @@ export const Registration = () => {
                     />
                 </div>
                 <div className="register-wrapper">
-                    <label>Фамиля: </label>
+                    <label>Фамилия: </label>
                     <InputComponent
                         onChange={onChange}
                         value={stateRegistered.surname}

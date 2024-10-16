@@ -2,8 +2,6 @@ import {InputComponent} from "../UI/Input.jsx";
 import {Button} from "../UI/Button.jsx";
 import {useState} from "react";
 
-
-
 export const ChangingPassword = () => {
     const [statePassword, setStatePassword] = useState({
         oldPassword: "",
@@ -16,7 +14,14 @@ export const ChangingPassword = () => {
     }
 
     const onChange = (e) => {
-        setStatePassword(e.target.value)
+        if(e.target.name === "password") {
+            setStateInput({...stateInput, [e.target.name]: e.target.value});
+        }else if(e.target.name === "confirm-password") {
+            setStateInput({...stateInput, [e.target.name]: e.target.value});
+        }else if(e.target.name === "new-password") {
+            setStateInput({...stateInput, [e.target.name]: e.target.value});
+        }
+        setStatePassword(e.target.value);
     }
 
     return (
@@ -55,7 +60,7 @@ export const ChangingPassword = () => {
             </div>
             <div className='btn-wrapper'>
                 <Button type="submit" text="Подтвердить"/>
-                <Button type="button" text="Выйти"/>
+                <Button type="button" text="Отмена"/>
             </div>
         </form>
     )

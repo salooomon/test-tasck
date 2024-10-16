@@ -1,10 +1,12 @@
 import {configureStore} from "@reduxjs/toolkit";
-import AuthorizationStorage from "./storage/AuthorizationStorage.js";
+import authorizationStorage from "./storage/authorizationStorage.js";
+import articlesStore from "./storage/articlesStore.js";
 
 
 export const store = configureStore({
     reducer: {
-        auth: AuthorizationStorage
+        auth: authorizationStorage,
+        article: articlesStore
     },
 });
 

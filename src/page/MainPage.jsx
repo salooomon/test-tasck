@@ -1,5 +1,5 @@
 import {Navbar} from "../components/Navbar.jsx";
-import {Registration} from "../components/Authorization/Registration.jsx";
+import {Registration} from "../components/authorization/Registration.jsx";
 
 export const MainPage = () => {
     return (

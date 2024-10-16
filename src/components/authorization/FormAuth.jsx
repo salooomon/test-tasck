@@ -1,7 +1,7 @@
 import {useState} from "react";
 
-import {InputComponent} from "./Input.jsx";
-import {ButtonComponent} from "./Button.jsx";
+import {InputComponent} from "../UI/Input.jsx";
+import {ButtonComponent} from "../UI/Button.jsx";
 
 const [stateInput, setStateInput] = useState({password: '', username: ''});
 
@@ -14,7 +14,7 @@ const onChange = (e) => {
     setStateInput(e.target.value)
 }
 
-export const Form = () => {
+export const FormAuth = () => {
     return (
         <form className="form-login" onSubmit={onSubmit}>
             <div className='input-wrapper'>
