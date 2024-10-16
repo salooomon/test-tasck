@@ -49,7 +49,7 @@ export const fetchRegistrationUser = createAsyncThunk(
 )
 
 export const fetchChangePassword = createAsyncThunk(
-    'fetch/registrationUser',
+    'fetch/ChangePassword',
     async (userData, {rejectWithValue}) => {
         const {oldPassword, newPassword,confirmedPassword} = userData;
         try {
