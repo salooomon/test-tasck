@@ -1,8 +1,11 @@
 import {InputComponent} from "../UI/Input.jsx";
 import {Button} from "../UI/Button.jsx";
 import {useState} from "react";
+import {useDispatch} from "react-redux";
+import {fetchRegistrationUser} from "../../store/storage/authorizationStorage.js";
 
 export const ChangingPassword = () => {
+    const dispatch = useDispatch();
     const [statePassword, setStatePassword] = useState({
         oldPassword: "",
         newPassword: "",
@@ -11,6 +14,11 @@ export const ChangingPassword = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
+        if(statePassword.oldPassword !== statePassword.newPassword) {
+            alert("Password must match!");
+        } else {
+            dispatch(fetchRegistrationUser(statePassword));
+        }
     }
 
     const onChange = (e) => {

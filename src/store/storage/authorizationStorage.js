@@ -48,6 +48,27 @@ export const fetchRegistrationUser = createAsyncThunk(
     }
 )
 
+export const fetchChangePassword = createAsyncThunk(
+    'fetch/registrationUser',
+    async (userData, {rejectWithValue}) => {
+        const {oldPassword, newPassword,confirmedPassword} = userData;
+        try {
+            const response = await instance.put(
+                "/change-password/",
+                {
+                    old_password: oldPassword,
+                    password: newPassword,
+                    confirmed_password: confirmedPassword,
+                }
+                ,
+            );
+            return response.data;
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    }
+)
+
 export const fetchUpdateToken = createAsyncThunk(
     'fetch/updateToken',
     async (token, {rejectWithValue}) => {
@@ -122,6 +143,26 @@ const authorizationReducer = createSlice({
                 state.error = action.payload.detail;
             })
 
+            // Смена пароля
+            .addCase(fetchChangePassword.pending, (state) => {
+                state.loadingStatus = "loading";
+                state.error = null;
+            })
+            .addCase(fetchChangePassword.fulfilled, (state, action) => {
+                if(action.payload.Succes) {
+                    alert('password change complete')
+                }
+                state.loadingStatus = "loaded";
+                state.error = null;
+            })
+            .addCase(fetchChangePassword.rejected, (state, action) => {
+                alert(action.payload.detail);
+                state.loadingStatus = "failed";
+                state.error = action.payload.detail;
+
+            })
+
+
             // Обновление токена
             .addCase(fetchUpdateToken.pending, (state) => {
                 state.loadingStatus = "loading";
@@ -136,6 +177,7 @@ const authorizationReducer = createSlice({
                 state.loadingStatus = "failed";
                 state.error = action.payload.detail;
             })
+
 
     },
 })
